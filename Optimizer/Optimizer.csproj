@@ -244,6 +244,14 @@
     <Compile Include="TokenPrivilegeHelper.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="UWPHelper.cs" />
+    <Compile Include="Services\FakeAuthService.cs" />
+    <Compile Include="Services\IAuthService.cs" />
+    <Compile Include="Forms\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Controls\ToggleCard.resx">
       <DependentUpon>ToggleCard.cs</DependentUpon>
     </EmbeddedResource>
@@ -286,6 +294,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\SplashForm.resx">
       <DependentUpon>SplashForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\StartupPreviewForm.resx">
       <DependentUpon>StartupPreviewForm.cs</DependentUpon>
