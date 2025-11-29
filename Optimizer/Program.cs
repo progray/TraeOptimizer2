@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
+using Optimizer.Services;
 
 namespace Optimizer
 {
@@ -377,6 +378,35 @@ namespace Optimizer
         private static void StartMainForm()
         {
             LoadSettings();
+            
+            // Check if user is already logged in
+            if (!OptionsHelper.CurrentOptions.IsLoggedIn)
+            {
+                // Show login form
+                Logger.LogInfoSilent($"{nameof(Program)}.{nameof(StartMainForm)}: User not logged in, showing login form");
+                
+                var authService = new FakeAuthService();
+                var loginForm = new LoginForm(authService);
+                
+                if (loginForm.ShowDialog() == DialogResult.OK)
+                {
+                    // Login successful, persist the login state
+                    OptionsHelper.CurrentOptions.IsLoggedIn = true;
+                    OptionsHelper.SaveSettings();
+                    Logger.LogInfoSilent($"{nameof(Program)}.{nameof(StartMainForm)}: Login successful, persisted login state");
+                }
+                else
+                {
+                    // Login failed or cancelled
+                    Logger.LogInfoSilent($"{nameof(Program)}.{nameof(StartMainForm)}: Login failed or cancelled, exiting application");
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                Logger.LogInfoSilent($"{nameof(Program)}.{nameof(StartMainForm)}: User already logged in, skipping login");
+            }
+            
             StartSplashForm();
 
             _MainForm = new MainForm(_SplashForm);
@@ -387,6 +417,35 @@ namespace Optimizer
         private static void StartMainForm(bool?[] codes)
         {
             LoadSettings();
+            
+            // Check if user is already logged in
+            if (!OptionsHelper.CurrentOptions.IsLoggedIn)
+            {
+                // Show login form
+                Logger.LogInfoSilent($"{nameof(Program)}.{nameof(StartMainForm)}: User not logged in, showing login form");
+                
+                var authService = new FakeAuthService();
+                var loginForm = new LoginForm(authService);
+                
+                if (loginForm.ShowDialog() == DialogResult.OK)
+                {
+                    // Login successful, persist the login state
+                    OptionsHelper.CurrentOptions.IsLoggedIn = true;
+                    OptionsHelper.SaveSettings();
+                    Logger.LogInfoSilent($"{nameof(Program)}.{nameof(StartMainForm)}: Login successful, persisted login state");
+                }
+                else
+                {
+                    // Login failed or cancelled
+                    Logger.LogInfoSilent($"{nameof(Program)}.{nameof(StartMainForm)}: Login failed or cancelled, exiting application");
+                    Environment.Exit(0);
+                }
+            }
+            else
+            {
+                Logger.LogInfoSilent($"{nameof(Program)}.{nameof(StartMainForm)}: User already logged in, skipping login");
+            }
+            
             StartSplashForm();
 
             _MainForm = new MainForm(_SplashForm, codes[0], codes[3], codes[2], codes[1], codes[4], codes[5], codes[6], codes[7]);
